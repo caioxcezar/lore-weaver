@@ -10,7 +10,7 @@ const Character = () => {
       {characters.map((c) => {
         const lastLocation = c.visitedLocations.length
           ? c.visitedLocations[c.visitedLocations.length - 1]
-          : "";
+          : "unknown";
         return (
           <div key={`${c.fullName}:${lastLocation}`}>
             <div>{c.fullName}</div>
