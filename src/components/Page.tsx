@@ -9,7 +9,7 @@ interface Props {
 
 const Page = ({ title, subtitle, children }: Props) => {
   return (
-    <div className="m-2">
+    <div className="p-2 h-screen">
       <div className="border-b-2 flex mb-2 items-baseline">
         <h1 className="text-5xl">{title}</h1>
         <Icon name="icon-right-open" className="text-4xl" />

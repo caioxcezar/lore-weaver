@@ -1,5 +1,22 @@
-import { type Content, useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import {
+  type Content,
+  type UseEditorOptions,
+  EditorContent,
+  EditorContext,
+  useEditor,
+} from "@tiptap/react";
+import { StarterKit } from "@tiptap/starter-kit";
+import { HeadingDropdownMenu } from "../tiptap-ui/heading-dropdown-menu";
+import { TaskList } from "@tiptap/extension-task-list";
+import { TaskItem } from "@tiptap/extension-task-item";
+import { ListDropdownMenu } from "../tiptap-ui/list-dropdown-menu";
+import { UndoRedoButton } from "../tiptap-ui/undo-redo-button";
+import { TextAlignButton } from "../tiptap-ui/text-align-button";
+import { TextAlign } from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import Superscript from "@tiptap/extension-superscript";
+import Subscript from "@tiptap/extension-subscript";
+import { MarkButton } from "../tiptap-ui/mark-button";
 
 interface Props {
   content: Content;
@@ -7,57 +24,56 @@ interface Props {
 
 const TextEditor = ({ content }: Props) => {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit,
+      TaskList,
+      TaskItem.configure({ nested: true }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Underline,
       Superscript,
       Subscript,
-      Link.configure({ openOnClick: false }),
-      Image,
-      TaskList,
-      TaskItem.configure({ nested: true }),
-      ImageUploadNode.configure({
-        accept: "image/*",
-        maxSize: MAX_FILE_SIZE,
-        limit: 3,
-        upload: handleImageUpload,
-        onError: (error: Error) => console.error("Upload failed:", error),
-      }),
     ],
     content,
-    // Don't render immediately on the server to avoid SSR issues
-    immediatelyRender: false,
-  });
+  } as UseEditorOptions);
 
   return (
-    <EditorContext.Provider value={{ editor }}>
-      <div className="tiptap-button-group" data-orientation="horizontal">
-        <UndoRedoButton action="undo" />
-        <UndoRedoButton action="redo" />
-        <div className="ml-1 mr-1 border-2" />
-        <TextAlignButton align="left" />
-        <TextAlignButton align="center" />
-        <TextAlignButton align="right" />
-        <TextAlignButton align="justify" />
-        <MarkButton type="bold" />
-        <MarkButton type="italic" />
-        <MarkButton type="strike" />
-        <MarkButton type="code" />
-        <MarkButton type="underline" />
-        <MarkButton type="superscript" />
-        <MarkButton type="subscript" />
-        <div className="ml-1 mr-1 border-2" />
-        <HeadingDropdownMenu levels={[1, 2, 3, 4]} />
-        <ListDropdownMenu types={["bulletList", "orderedList", "taskList"]} />
-        <div className="ml-1 mr-1 border-2" />
-        <LinkPopover />
-        <div className="ml-1 mr-1 border-2" />
-        <ImageUploadButton text="Add" />
-      </div>
+    <div className="text-editor">
+      <EditorContext.Provider value={{ editor }}>
+        <div
+          className="tiptap-button-group bg-card rounded-xl shadow-xl p-1"
+          data-orientation="horizontal"
+        >
+          <UndoRedoButton action="undo" />
+          <UndoRedoButton action="redo" />
+          <div className="mx-1 border-2" />
+          <HeadingDropdownMenu
+            levels={[1, 2, 3, 4]}
+            className="text-editor-card"
+          />
+          <ListDropdownMenu types={["bulletList", "orderedList", "taskList"]} />
+          <div className="mx-1 border-2" />
+          <TextAlignButton align="left" />
+          <TextAlignButton align="center" />
+          <TextAlignButton align="right" />
+          <TextAlignButton align="justify" />
+          <div className="mx-1 border-2" />
+          <MarkButton type="bold" />
+          <MarkButton type="italic" />
+          <MarkButton type="strike" />
+          <MarkButton type="code" />
+          <MarkButton type="underline" />
+          <MarkButton type="superscript" />
+          <MarkButton type="subscript" />
+        </div>
 
-      <EditorContent editor={editor} />
-    </EditorContext.Provider>
+        <EditorContent
+          editor={editor}
+          role="presentation"
+          className="bg-card my-2 rounded-xl p-2 shadow-xl"
+        />
+      </EditorContext.Provider>
+    </div>
   );
 };
 
