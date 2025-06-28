@@ -17,12 +17,18 @@ import Underline from "@tiptap/extension-underline";
 import Superscript from "@tiptap/extension-superscript";
 import Subscript from "@tiptap/extension-subscript";
 import { MarkButton } from "../tiptap-ui/mark-button";
+import { useRef } from "react";
+import Button from "../Button";
+import { useRouter } from "next/navigation";
 
 interface Props {
   content: Content;
 }
 
 const TextEditor = ({ content }: Props) => {
+  const router = useRouter();
+  const editorRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -37,8 +43,11 @@ const TextEditor = ({ content }: Props) => {
     content,
   } as UseEditorOptions);
 
+  const onSave = () => router.back();
+  const onCancel = () => router.back();
+
   return (
-    <div className="text-editor">
+    <div className="text-editor flex flex-col flex-1">
       <EditorContext.Provider value={{ editor }}>
         <div
           className="tiptap-button-group bg-card rounded-xl shadow-xl p-1"
@@ -67,12 +76,21 @@ const TextEditor = ({ content }: Props) => {
           <MarkButton type="subscript" />
         </div>
 
-        <EditorContent
-          editor={editor}
-          role="presentation"
-          className="bg-card my-2 rounded-xl p-2 shadow-xl"
-        />
+        <div
+          ref={editorRef}
+          className="my-2 p-2 rounded-xl shadow-xl flex-1 overflow-y-auto bg-card"
+        >
+          <EditorContent
+            ref={contentRef}
+            editor={editor}
+            style={{ height: (editorRef.current?.clientHeight || 0) - 50 }}
+          />
+        </div>
       </EditorContext.Provider>
+      <div className="flex-col">
+        <Button text="Save" type="success" onClick={onSave} />
+        <Button text="Cancel" type="danger" onClick={onCancel} />
+      </div>
     </div>
   );
 };

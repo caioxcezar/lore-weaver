@@ -125,3 +125,8 @@ body {
   list-style-type: decimal;
   margin-left: 20px;
 }
+
+.text-editor .ProseMirror {
+  border: dashed var(--bg-card-hover) 2px;
+  outline: none !important;
+}
