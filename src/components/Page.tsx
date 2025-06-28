@@ -4,7 +4,7 @@ import Icon from "./Icon";
 interface Props {
   title: string;
   subtitle: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const Page = ({ title, subtitle, children }: Props) => {

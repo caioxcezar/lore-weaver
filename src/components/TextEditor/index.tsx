@@ -6,27 +6,25 @@ import {
   useEditor,
 } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
-import { HeadingDropdownMenu } from "../tiptap-ui/heading-dropdown-menu";
+import { HeadingDropdownMenu } from "./tiptap-ui/heading-dropdown-menu";
 import { TaskList } from "@tiptap/extension-task-list";
 import { TaskItem } from "@tiptap/extension-task-item";
-import { ListDropdownMenu } from "../tiptap-ui/list-dropdown-menu";
-import { UndoRedoButton } from "../tiptap-ui/undo-redo-button";
-import { TextAlignButton } from "../tiptap-ui/text-align-button";
+import { ListDropdownMenu } from "./tiptap-ui/list-dropdown-menu";
+import { UndoRedoButton } from "./tiptap-ui/undo-redo-button";
+import { TextAlignButton } from "./tiptap-ui/text-align-button";
 import { TextAlign } from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import Superscript from "@tiptap/extension-superscript";
 import Subscript from "@tiptap/extension-subscript";
-import { MarkButton } from "../tiptap-ui/mark-button";
+import { MarkButton } from "./tiptap-ui/mark-button";
 import { useRef } from "react";
-import Button from "../Button";
-import { useRouter } from "next/navigation";
 
 interface Props {
-  content: Content;
+  initialContent?: Content;
+  onUpdate: (html: string) => void;
 }
 
-const TextEditor = ({ content }: Props) => {
-  const router = useRouter();
+const TextEditor = ({ initialContent, onUpdate }: Props) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const editor = useEditor({
@@ -40,11 +38,9 @@ const TextEditor = ({ content }: Props) => {
       Superscript,
       Subscript,
     ],
-    content,
+    content: initialContent,
+    onUpdate: ({ editor }) => onUpdate(editor.getHTML()),
   } as UseEditorOptions);
-
-  const onSave = () => router.back();
-  const onCancel = () => router.back();
 
   return (
     <div className="text-editor flex flex-col flex-1">
@@ -87,10 +83,6 @@ const TextEditor = ({ content }: Props) => {
           />
         </div>
       </EditorContext.Provider>
-      <div className="flex-col">
-        <Button text="Save" type="success" onClick={onSave} />
-        <Button text="Cancel" type="danger" onClick={onCancel} />
-      </div>
     </div>
   );
 };
