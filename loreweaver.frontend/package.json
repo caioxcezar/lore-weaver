@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 49534",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 49534",
     "lint": "next lint"
   },
   "dependencies": {
@@ -23,7 +23,9 @@
     "@tiptap/starter-kit": "^3.0.0-beta.17",
     "next": "15.3.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-loading-skeleton": "^3.5.0",
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

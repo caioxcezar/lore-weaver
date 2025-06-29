@@ -1,6 +1,7 @@
 export interface World {
+  id: number;
   name: string;
-  create: number;
-  lastEdit: string;
+  created: Date;
+  lastEdit?: Date;
   description: string;
 }

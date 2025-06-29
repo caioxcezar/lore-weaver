@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
+import "react-loading-skeleton/dist/skeleton.css";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +30,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SkeletonTheme baseColor="#706c5f" highlightColor="#f3e9ce">
+          {children}
+        </SkeletonTheme>
+        <ToastContainer />
       </body>
     </html>
   );
