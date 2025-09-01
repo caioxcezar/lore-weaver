@@ -12,6 +12,6 @@ public class World
     public string Name { get; set; } = string.Empty;
     [MaxLength(512)]
     public string Description { get; set; } = string.Empty;
-    public DateTime Created { get; set; } = new();
+    public DateTime Created { get; set; }
     public DateTime? LastEdit { get; set; }
 }

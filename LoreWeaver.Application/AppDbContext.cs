@@ -1,7 +1,7 @@
 ﻿using LoreWeaver.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoreWeaver;
+namespace LoreWeaver.Application;
 
 public class AppDbContext : DbContext
 {

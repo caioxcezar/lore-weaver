@@ -1,30 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\",
+  "WorkspaceRootPath": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|c:\\users\\ccezar\\documents\\repos\\loreweaver\\loreweaver\\controllers\\worldscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|solutionrelative:loreweaver\\controllers\\worldscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{23EA16D7-1BF1-9538-252E-0E61174DC887}|LoreWeaver.frontend\\loreweaver.frontend.esproj|c:\\users\\ccezar\\repositories\\lore-weaver\\loreweaver.frontend\\loreweaver.frontend.esproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{23EA16D7-1BF1-9538-252E-0E61174DC887}|LoreWeaver.frontend\\loreweaver.frontend.esproj|solutionrelative:loreweaver.frontend\\loreweaver.frontend.esproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|c:\\users\\ccezar\\documents\\repos\\loreweaver\\loreweaver\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|c:\\users\\ccezar\\repositories\\lore-weaver\\loreweaver\\loreweaver.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|solutionrelative:loreweaver\\loreweaver.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|c:\\users\\ccezar\\repositories\\lore-weaver\\loreweaver\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|solutionrelative:loreweaver\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|c:\\users\\ccezar\\documents\\repos\\loreweaver\\loreweaver\\global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|solutionrelative:loreweaver\\global.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9A5AF7B5-CFDA-456E-BD29-64832F0F1633}|LoreWeaver.Entities\\LoreWeaver.Entities.csproj|c:\\users\\ccezar\\documents\\repos\\loreweaver\\loreweaver.entities\\world.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9A5AF7B5-CFDA-456E-BD29-64832F0F1633}|LoreWeaver.Entities\\LoreWeaver.Entities.csproj|solutionrelative:loreweaver.entities\\world.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|c:\\users\\ccezar\\documents\\repos\\loreweaver\\loreweaver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|c:\\users\\ccezar\\repositories\\lore-weaver\\loreweaver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|solutionrelative:loreweaver\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|c:\\users\\ccezar\\documents\\repos\\loreweaver\\loreweaver\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{99CC1208-B752-4E64-AF8A-D3F2632734D8}|LoreWeaver\\LoreWeaver.csproj|solutionrelative:loreweaver\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,85 +26,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "World.cs",
-              "DocumentMoniker": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver.Entities\\World.cs",
-              "RelativeDocumentMoniker": "LoreWeaver.Entities\\World.cs",
-              "ToolTip": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver.Entities\\World.cs",
-              "RelativeToolTip": "LoreWeaver.Entities\\World.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T19:33:03.043Z",
+              "DocumentIndex": 0,
+              "Title": "loreweaver.frontend",
+              "DocumentMoniker": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\LoreWeaver.frontend\\loreweaver.frontend.esproj",
+              "RelativeDocumentMoniker": "LoreWeaver.frontend\\loreweaver.frontend.esproj",
+              "ToolTip": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\LoreWeaver.frontend\\loreweaver.frontend.esproj",
+              "RelativeToolTip": "LoreWeaver.frontend\\loreweaver.frontend.esproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-08-31T22:52:41.684Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "global.json",
-              "DocumentMoniker": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\global.json",
-              "RelativeDocumentMoniker": "LoreWeaver\\global.json",
-              "ToolTip": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\global.json",
-              "RelativeToolTip": "LoreWeaver\\global.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\LoreWeaver\\appsettings.json",
+              "RelativeDocumentMoniker": "LoreWeaver\\appsettings.json",
+              "ToolTip": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\LoreWeaver\\appsettings.json",
+              "RelativeToolTip": "LoreWeaver\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAC5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-29T18:30:43.371Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-31T20:54:23.513Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\appsettings.json",
-              "RelativeDocumentMoniker": "LoreWeaver\\appsettings.json",
-              "ToolTip": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\appsettings.json",
-              "RelativeToolTip": "LoreWeaver\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-29T17:54:23.76Z",
+              "Title": "LoreWeaver.csproj",
+              "DocumentMoniker": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\LoreWeaver\\LoreWeaver.csproj",
+              "RelativeDocumentMoniker": "LoreWeaver\\LoreWeaver.csproj",
+              "ToolTip": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\LoreWeaver\\LoreWeaver.csproj",
+              "RelativeToolTip": "LoreWeaver\\LoreWeaver.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-31T18:51:04.544Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "WorldsController.cs",
-              "DocumentMoniker": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\Controllers\\WorldsController.cs",
-              "RelativeDocumentMoniker": "LoreWeaver\\Controllers\\WorldsController.cs",
-              "ToolTip": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\Controllers\\WorldsController.cs",
-              "RelativeToolTip": "LoreWeaver\\Controllers\\WorldsController.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAIwDAAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T17:44:18.976Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\LoreWeaver\\Program.cs",
               "RelativeDocumentMoniker": "LoreWeaver\\Program.cs",
-              "ToolTip": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\Program.cs",
+              "ToolTip": "C:\\Users\\ccezar\\Repositories\\lore-weaver\\LoreWeaver\\Program.cs",
               "RelativeToolTip": "LoreWeaver\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAiwBEAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T17:38:53.696Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "LoreWeaver\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\ccezar\\Documents\\repos\\LoreWeaver\\LoreWeaver\\AppDbContext.cs",
-              "RelativeToolTip": "LoreWeaver\\AppDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T17:38:39.706Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-31T18:38:21.172Z"
             }
           ]
         }

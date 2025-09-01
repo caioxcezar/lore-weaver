@@ -17,6 +17,12 @@
       "css": "plus-circled",
       "code": 59393,
       "src": "fontawesome"
+    },
+    {
+      "uid": "19dae18c34431934a781773e241faec2",
+      "css": "pencil-circled",
+      "code": 59394,
+      "src": "elusive"
     }
   ]
 }

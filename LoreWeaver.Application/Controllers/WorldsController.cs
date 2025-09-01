@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoreWeaver.Controllers;
+namespace LoreWeaver.Application.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -29,6 +29,7 @@ public class WorldsController(AppDbContext context) : Controller
     [HttpPost]
     public async Task<ActionResult<World>> PostWorld(World world)
     {
+        world.Created = DateTime.Now.ToUniversalTime();
         context.Worlds.Add(world);
         await context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetWorld), new { id = world.Id }, world);

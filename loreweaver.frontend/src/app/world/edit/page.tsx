@@ -1,16 +1,18 @@
 "use client";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import Label from "@/components/label";
 import Page from "@/components/Page";
+import useRequest from "@/hooks/useRequest";
 import { type World } from "@/types/world";
-import { put } from "@/utils/request";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Skeleton from "react-loading-skeleton";
 import { toast } from "react-toastify";
 
 const Edit = () => {
   const router = useRouter();
+  const request = useRequest();
+
   const searchParams = useSearchParams();
   const id = searchParams?.get("id") || null;
 
@@ -25,62 +27,84 @@ const Edit = () => {
 
   const loadData = async () => {
     try {
-      const response = await fetch(`/api/worlds/${id}`);
-      const json = await response.json();
+      const res = (await request.get<World>(`/api/worlds/${id}`))!;
+
       const world: World = {
-        ...json,
-        created: new Date(json.created),
-        lastEdit: json.lastEdit ? new Date(json.lastEdit) : null,
+        ...res,
+        created: new Date(res.created),
+        lastEdit: res.lastEdit ? new Date(res.lastEdit) : undefined,
       };
-      console.log(">>>", world.created.getFullYear());
+
       setWorld(world);
       setName(world.name);
       setDescription(world.description);
     } catch (error) {
-      toast.error((error as Error).message);
+      toast.error((error as Error).message || "Unable to save the World");
     }
   };
 
   const onSave = async () => {
     try {
-      await put(`/api/worlds/${id}`, {
+      await request.put(`/api/worlds/${id}`, {
         ...world,
         name,
         description,
-        lastEdit: new Date(),
       });
-      toast.success("Updated");
+      toast.success("Updated~!");
+      router.back();
     } catch (error: any) {
-      let message = "";
-      if (error.title) message = error.title;
-      if (error.message) message = error.message;
-      toast.error(message || "Unable to update the entry");
+      toast.error((error as Error).message || "Unable to update the World");
     }
   };
-  const onDelete = () => {
-    router.back();
+  const onDelete = async () => {
+    try {
+      await request.del(`/api/worlds/${id}`);
+      toast.success("Deleted~!");
+      router.back();
+    } catch (error: any) {
+      toast.error((error as Error).message || "Unable to delete the World");
+    }
   };
+
+  const onCancel = () => router.back();
 
   return (
     <Page title="World" subtitle="Create New World" className="px-2">
-      {world ? (
-        <>
-          <div className="my-2">
-            created: {world.created.toLocaleDateString()}
-          </div>
-          <Input value={name} label="Name" onchange={setName} />
-          <Input
-            value={description}
-            label="Description"
-            onchange={setDescription}
-          />
-        </>
-      ) : (
-        <Skeleton count={5} className="my-2.5" />
-      )}
-      <div>
-        <Button text="Save" onClick={onSave} type="success" />
-        <Button text="Delete" onClick={onDelete} type="danger" />
+      <>
+        <Label
+          value={`created: ${world?.created.toLocaleDateString()}`}
+          loading={!world}
+        />
+        <Input loading={!world} value={name} label="Name" onchange={setName} />
+        <Input
+          loading={!world}
+          value={description}
+          label="Description"
+          onchange={setDescription}
+        />
+      </>
+      <div className="flex gap-2 mt-2">
+        <Button
+          text="Save"
+          onClick={onSave}
+          type="primary"
+          className="flex-none"
+          disable={!world}
+        />
+        <Button
+          text="Delete"
+          onClick={onDelete}
+          type="secundary"
+          className="flex-none"
+          disable={!world}
+        />
+        <Button
+          text="Cancel"
+          onClick={onCancel}
+          type="danger"
+          className="flex-none"
+        />
+        <div className="grow" />
       </div>
     </Page>
   );

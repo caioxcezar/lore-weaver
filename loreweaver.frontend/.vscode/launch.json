@@ -2,16 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "edge",
+      "type": "chrome",
       "request": "launch",
-      "name": "localhost (Edge)",
+      "name": "localhost (Chrome)",
       "url": "http://localhost:49534",
       "webRoot": "${workspaceFolder}"
     },
     {
-      "type": "chrome",
+      "type": "waterfox",
       "request": "launch",
-      "name": "localhost (Chrome)",
+      "name": "localhost (Waterfox)",
       "url": "http://localhost:49534",
       "webRoot": "${workspaceFolder}"
     }

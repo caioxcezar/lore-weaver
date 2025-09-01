@@ -131,3 +131,6 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
+
+# env files (can opt-in for committing if needed)
+.env*
