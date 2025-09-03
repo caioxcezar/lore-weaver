@@ -75,12 +75,12 @@ const Edit = () => {
           value={`created: ${world?.created.toLocaleDateString()}`}
           loading={!world}
         />
-        <Input loading={!world} value={name} label="Name" onchange={setName} />
+        <Input loading={!world} value={name} label="Name" onChange={setName} />
         <Input
           loading={!world}
           value={description}
           label="Description"
-          onchange={setDescription}
+          onChange={setDescription}
         />
       </>
       <div className="flex gap-2 mt-2">

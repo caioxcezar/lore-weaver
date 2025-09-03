@@ -1,24 +1,52 @@
 const useRequest = () => {
-  const get = async <T = any>(url: string) => request<T>(url, "GET");
+  const get = async <T = any>(url: string, authenticated: boolean = false) =>
+    request<T>(url, "GET", undefined, authenticated);
 
-  const post = async <T = any>(url: string, body?: string | object) =>
-    request<T>(url, "POST", body);
+  const post = async <T = any>(
+    url: string,
+    body?: string | object,
+    authenticated: boolean = false
+  ) => request<T>(url, "POST", body, authenticated);
 
-  const put = async <T = any>(url: string, body?: string | object) =>
-    request<T>(url, "PUT", body);
+  const put = async <T = any>(
+    url: string,
+    body?: string | object,
+    authenticated: boolean = false
+  ) => request<T>(url, "PUT", body, authenticated);
 
-  const del = async <T = any>(url: string, body?: string | object) =>
-    request<T>(url, "DELETE", body);
+  const del = async <T = any>(
+    url: string,
+    body?: string | object,
+    authenticated: boolean = false
+  ) => request<T>(url, "DELETE", body, authenticated);
 
   const request = async <T>(
     url: string,
     method: "POST" | "PUT" | "GET" | "DELETE",
-    body?: string | object
+    body?: string | object,
+    authenticated: boolean = false,
+    headers?: Headers
   ) => {
+    const _headers = new Headers();
+    _headers.append("Content-Type", "application/json");
+    if (headers)
+      for (const [name, value] of headers.entries())
+        _headers.append(name, value);
+
+    if (authenticated) {
+      const res = localStorage.getItem("token");
+      if (res) {
+        const token = JSON.parse(res);
+        _headers.append("Authorization", token.value);
+      }
+    }
+
+    const raw = buildBody(body);
+
     const response = await fetch(url, {
       method,
-      body: buildBody(body),
-      headers: { "Content-Type": "application/json" },
+      body: raw,
+      headers: _headers,
     });
     return response2Json<T>(response);
   };

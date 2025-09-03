@@ -2,25 +2,21 @@ import Skeleton from "react-loading-skeleton";
 import Label from "./label";
 
 interface Props {
-  value: string;
   label: string;
   placeholder?: string;
   required?: boolean;
   loading?: boolean;
-  type?: string;
-  maxLength?: number;
-  onChange: (value: string) => void;
+  multiple?: boolean;
+  onChange: (value: FileList | null) => void;
 }
 
-const Input = ({
-  value,
+const InputFile = ({
   label,
   placeholder,
   required,
   loading,
   onChange,
-  maxLength,
-  type = "text",
+  multiple,
 }: Props) => {
   return (
     <div>
@@ -33,17 +29,17 @@ const Input = ({
         <Skeleton className="p-2.5" />
       ) : (
         <input
-          maxLength={maxLength}
-          value={value}
-          type={type}
+          multiple={multiple}
+          type="file"
+          accept="image/png, image/jpeg, image/webp"
           className="focus:outline-none focus:ring-2 bg-(--papyrus-medium) border border-(--papyrus-medium-hover) text-sm rounded-lg focus:ring-(--papyrus-medium-hover) focus:border-(--papyrus-medium-hover) block w-full p-2.5"
           placeholder={placeholder}
           required={required}
-          onChange={({ target: { value } }) => onChange(value)}
+          onChange={({ target: { files } }) => onChange(files)}
         />
       )}
     </div>
   );
 };
 
-export default Input;
+export default InputFile;

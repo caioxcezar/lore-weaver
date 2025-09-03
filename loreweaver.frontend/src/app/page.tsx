@@ -16,7 +16,7 @@ export default function Home() {
   const [worlds, setWorlds] = useState<World[]>([]);
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(Number.MAX_SAFE_INTEGER);
-  const [fetching, isFetching] = useState(false);
+  const [fetching, isFetching] = useState(true);
 
   const handleScroll = (position: number, height: number) => {
     if (fetching) return;
@@ -28,7 +28,10 @@ export default function Home() {
       try {
         if (page > total) return;
         isFetching(true);
-        const json = await request.get(`/api/worlds?page=${page}&size=50`);
+        const json = await request.get(
+          `/api/worlds?page=${page}&size=50`,
+          true
+        );
         setPage(page);
         setWorlds([...worlds, ...json.items]);
         setTotal(json.total);
@@ -48,7 +51,11 @@ export default function Home() {
   }, [page, fetching, loadWorlds]);
 
   return (
-    <Page title="Lore Weaver" subtitle="Worlds">
+    <Page
+      title="Lore Weaver"
+      subtitle="Worlds"
+      onMount={() => isFetching(false)}
+    >
       <Scrollable onScroll={handleScroll}>
         <Card
           className="flex flex-col align-middle items-center justify-center cursor-pointer mb-4"
