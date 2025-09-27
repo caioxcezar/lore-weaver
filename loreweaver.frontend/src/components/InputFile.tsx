@@ -26,7 +26,7 @@ const InputFile = ({
         className="block mb-2 text-sm font-medium"
       />
       {loading ? (
-        <Skeleton className="p-2.5" />
+        <Skeleton className="p-3.5" />
       ) : (
         <input
           multiple={multiple}

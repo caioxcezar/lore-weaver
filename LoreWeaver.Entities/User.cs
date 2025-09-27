@@ -1,30 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using LoreWeaver.Entities.Enum;
 
 namespace LoreWeaver.Entities;
 
-public class User
+public class User : Entity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
-    [MaxLength(128), Required]
-    public string Name { get; set; }
-    [MaxLength(20), Required]
-    public string Login { get; set; }
-    [MaxLength(128), Required]
-    public string Email { get; set; }
-    [MaxLength(64), Required]
-    public string Password { get; set; }
-    public Role[] Roles { get; set; } = [];
-    public ICollection<World>  Worlds { get; set; } = [];
-    [Required]
-    public DateTime Created { get; set; }
-    public DateTime? LastEdit { get; set; }
-}
+    [MaxLength(128)] [Required] public string Name { get; set; }
 
-public enum Role
-{
-    Admin,
-    User
+    [MaxLength(20)] [Required] public string Login { get; set; }
+
+    [MaxLength(128)] [Required] public string Email { get; set; }
+
+    [MaxLength(64)] [Required] public string Password { get; set; }
+
+    public ICollection<UserRole> Roles { get; set; } = [];
+    public ICollection<World> Worlds { get; set; } = [];
 }

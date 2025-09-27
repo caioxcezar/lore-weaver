@@ -3,7 +3,6 @@ import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Page from "@/components/Page";
 import useRequest from "@/hooks/useRequest";
-import { DateTime } from "luxon";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -17,20 +16,14 @@ const Login = () => {
 
   const onLogin = async () => {
     try {
-      const res = await request.post<{ token: string }>("/api/login/", {
+      const res = await request.post("/api/login/", {
         login,
         password,
       });
 
       if (!res) throw new Error("Unable to get token");
-      localStorage.setItem(
-        "token",
-        JSON.stringify({
-          value: `Bearer ${res.token}`,
-          expiration: DateTime.now().plus({ days: 1 }).toMillis().toString(),
-        })
-      );
-      route.push("/");
+      localStorage.setItem("token", res.token);
+      route.push("/home");
     } catch (error) {
       toast.error((error as Error).message);
     }

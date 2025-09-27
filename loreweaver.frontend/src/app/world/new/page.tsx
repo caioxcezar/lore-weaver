@@ -1,5 +1,6 @@
 "use client";
 import Button from "@/components/Button";
+import ImageViewer from "@/components/ImageViewer";
 import Input from "@/components/Input";
 import InputFile from "@/components/InputFile";
 import Page from "@/components/Page";
@@ -15,16 +16,20 @@ const New = () => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [map, setMap] = useState<File | null>(null);
+  const [map, setMap] = useState<string | null>(null);
 
   const onSave = async () => {
     try {
       if (!name.trim()) throw new Error("Provide a name for your world");
-      await request.post("/api/worlds", {
-        name,
-        description,
-        map: map ? await Image2Base64(map) : null,
-      });
+      await request.post(
+        "/api/worlds",
+        {
+          name,
+          description,
+          map,
+        },
+        true
+      );
       toast.success("World created~!");
       router.back();
     } catch (error) {
@@ -44,9 +49,11 @@ const New = () => {
       />
       <InputFile
         label="World Map"
-        onChange={(files) => setMap(files ? files[0] : null)}
+        onChange={async (files) =>
+          setMap(files ? await Image2Base64(files[0]) : null)
+        }
       />
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 my-2">
         <Button
           text="Save"
           onClick={onSave}
@@ -61,6 +68,7 @@ const New = () => {
         />
         <div className="grow" />
       </div>
+      <ImageViewer alt="Map of the world" src={map} />
     </Page>
   );
 };

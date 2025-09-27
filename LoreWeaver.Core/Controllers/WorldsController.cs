@@ -1,97 +1,126 @@
-﻿using System.Security.Claims;
-using LoreWeaver.Core.Services;
+﻿using LoreWeaver.Core.Services;
 using LoreWeaver.Entities;
 using LoreWeaver.Shared;
 using LoreWeaver.Shared.Dtos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Supabase.Storage;
+using FileOptions = Supabase.Storage.FileOptions;
 
 namespace LoreWeaver.Core.Controllers;
 
 [ApiController]
-[Route("api")]
+[Route("api/[controller]")]
 [Authorize]
 public class WorldsController(AppDbContext context, ISupabaseService supabaseService) : Controller
 {
-    private readonly string _storageName = "world-images";
-    [HttpGet("[controller]")]
+    [HttpGet]
     public async Task<ActionResult<object>> GetWorlds(int page = 1, int size = 10)
     {
-        var total = await context.Worlds.CountAsync();
+        var userId = User.GetId();
+        var total = await context.Worlds.CountAsync(world => world.User.Id == userId);
         var totalPage = Math.Ceiling((double)total / page);
-        var worlds = context.Worlds.Select(WorldSummaryDto.FromEntity).Skip((page - 1) * size).Take(size);
+        var worlds = context.Worlds.Where(world => world.User.Id == userId).Select(WorldSummaryDto.FromEntity)
+            .Skip((page - 1) * size).Take(size);
 
         return new { total = totalPage, items = worlds };
     }
 
-    [HttpGet("[controller]/{id}")]
-    public async Task<ActionResult<WorldDto>> GetWorld(int id)
+    [HttpGet("{id}")]
+    public async Task<ActionResult> GetWorld(int id)
     {
-        var entity = await context.Worlds.FindAsync(id);
+        var userId = User.GetId();
+        var entity = await context.Worlds.Include(world => world.User)
+            .FirstOrDefaultAsync(world => world.User.Id == userId && world.Id == id);
         if (entity == null) return NotFound();
-        var world = WorldDto.FromEntity(entity);
+        var world = new WorldEditDto
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            Description = entity.Description,
+            Created = entity.Created,
+            LastEdit = entity.LastEdit
+        };
         if (entity.MapPath != null)
         {
-            var image = await supabaseService.client.Storage.From(_storageName).Download($"{entity.Id}/world-map.webp", new TransformOptions());
+            var image = await supabaseService.client.Storage.From("world-images")
+                .Download($"user_{entity.User.Id}/world_{entity.Id}/world-map.webp", new TransformOptions());
             world.Map = ImageConverter.ConvertToBase64(image);
         }
-        
-        return world;
+
+        return Ok(world);
     }
 
-    [HttpPost("[controller]")]
-    public async Task<ActionResult<WorldDto>> PostWorld(WorldDto world)
+    [HttpPost]
+    public async Task<ActionResult> PostWorld(WorldCreateDto world)
     {
-        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        world.Created = DateTime.Now.ToUniversalTime();
-        var entity = world.ToEntity();
+        var userId = User.GetId();
+        var user = await context.Users.FirstAsync(u => u.Id == userId);
+        var entity = new World
+        {
+            Name = world.Name,
+            Description = world.Description,
+            Created = DateTime.Now.ToUniversalTime(),
+            User = user
+        };
         context.Worlds.Add(entity);
         await context.SaveChangesAsync();
-        entity.MapPath = $"user_{userId}/world_{entity.Id}/world-map.webp";
+
         if (world.Map != null)
         {
             var image = await ImageConverter.ConvertToWebP(world.Map);
             if (image != null)
             {
-                var y = await supabaseService.client.Storage.From(_storageName).Update(image, entity.MapPath, new() { ContentType = "image/webp" });
+                entity.MapPath = $"user_{entity.User.Id}/world_{entity.Id}/world-map.webp";
+                await supabaseService.client.Storage.From("world-images").Upload(image, entity.MapPath,
+                    new FileOptions { ContentType = "image/webp" });
+                await context.SaveChangesAsync();
+            }
+        }
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutWorld(int id, WorldEditDto world)
+    {
+        if (id != world.Id) return UnprocessableEntity("Trying to change a world different from the informed");
+        var userId = User.GetId();
+        var entity = await context.Worlds.Include(w => w.User)
+            .FirstOrDefaultAsync(w => w.User.Id == userId && w.Id == world.Id);
+        if (entity is null) return NotFound();
+
+        entity.LastEdit = DateTime.Now.ToUniversalTime();
+        entity.Name = world.Name;
+        entity.Description = world.Description;
+
+        if (world.Map != null)
+        {
+            var image = await ImageConverter.ConvertToWebP(world.Map);
+            if (image != null)
+            {
+                entity.MapPath = $"user_{entity.User.Id}/world_{entity.Id}/world-map.webp";
+                await supabaseService.client.Storage.From("world-images").Update(image, entity.MapPath,
+                    new FileOptions { ContentType = "image/webp", Upsert = true });
             }
         }
 
         await context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetWorld), new { id = world.Id }, world);
+
+        return Ok();
     }
 
-    [HttpPut("[controller]/{id}")]
-    public async Task<IActionResult> PutStudent(int id, World world)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteWorld(int id)
     {
-        if (id != world.Id) return BadRequest();
+        var userId = User.GetId();
+        var entity = await context.Worlds.FirstOrDefaultAsync(world => world.User.Id == userId && world.Id == id);
+        if (entity == null) return NotFound();
 
-        context.Entry(world).State = EntityState.Modified;
-        try
-        {
-            await context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!context.Worlds.Any(e => e.Id == id)) return NotFound();
-            throw;
-        }
-
-        return NoContent();
-    }
-
-    [HttpDelete("[controller]/{id}")]
-    public async Task<IActionResult> DeleteStudent(int id)
-    {
-        var world = await context.Worlds.FindAsync(id);
-        if (world == null) return NotFound();
-
-        context.Worlds.Remove(world);
+        context.Worlds.Remove(entity);
         await context.SaveChangesAsync();
 
-        return NoContent();
+        return Ok();
     }
 }

@@ -12,7 +12,7 @@ public class Middleware(RequestDelegate next)
         }
         catch (Exception ex)
         {
-            context.Response.StatusCode = 400;
+            context.Response.StatusCode = 500;
             await context.Response.WriteAsync(JsonSerializer.Serialize(new
             {
                 message = ex.Message

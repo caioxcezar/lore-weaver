@@ -3,7 +3,6 @@ using DotNetEnv;
 using LoreWeaver.Core;
 using LoreWeaver.Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,16 +15,15 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost", policy =>
     {
-        policy.WithOrigins("http://localhost:42248", "http://localhost:49534", "https://localhost:44375")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
+        policy.WithOrigins("http://localhost:42248", "https://localhost:44375", "http://localhost:49534")
+            .AllowCredentials()
+            .AllowAnyHeader();
     });
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(jwtOptions =>
     {
-        jwtOptions.TokenValidationParameters = new()
+        jwtOptions.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -45,6 +43,7 @@ builder.Services.AddDbContext<AppDbContext>(dbOptions =>
     {
         options.EnableRetryOnFailure();
         options.CommandTimeout(300);
+        options.MigrationsHistoryTable("__EFMigrationsHistory", "loreweaver");
     })
 );
 
@@ -59,16 +58,18 @@ var app = builder.Build();
 
 app.UseMiddleware<Middleware>();
 
-app.UseCors("AllowLocalhost");
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseHttpsRedirection();
+}
 
-app.UseHttpsRedirection();
+app.UseCors("AllowLocalhost");
 
 app.UseAuthentication();
 app.UseAuthorization();

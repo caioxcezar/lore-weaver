@@ -3,19 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LoreWeaver.Entities;
 
-public class World
+public class World : Entity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
     [MaxLength(128), Required]
     public string Name { get; set; }
     [MaxLength(512)]
     public string? Description { get; set; }
     public string? MapPath { get; set; }
-    [Required]
-    public int UserId { get; set; }
-    [Required]
-    public DateTime Created { get; set; }
-    public DateTime? LastEdit { get; set; }
+    [Required, ForeignKey("UserId")]
+    public User User { get; set; }
+    public ICollection<PoliticalLocation> PoliticalLocations { get; set; } = [];
+    public ICollection<GeographicLocation> GeographicLocations { get; set; } = [];
 }

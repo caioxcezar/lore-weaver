@@ -1,10 +1,13 @@
 "use client";
 import Button from "@/components/Button";
+import ImageViewer from "@/components/ImageViewer";
 import Input from "@/components/Input";
+import InputFile from "@/components/InputFile";
 import Label from "@/components/label";
 import Page from "@/components/Page";
 import useRequest from "@/hooks/useRequest";
 import { type World } from "@/types/world";
+import { Image2Base64 } from "@/utils/Image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -18,6 +21,7 @@ const Edit = () => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [map, setMap] = useState<string | null>(null);
   const [world, setWorld] = useState<World | null>(null);
 
   useEffect(() => {
@@ -27,7 +31,7 @@ const Edit = () => {
 
   const loadData = async () => {
     try {
-      const res = (await request.get<World>(`/api/worlds/${id}`))!;
+      const res = await request.get(`/api/worlds/${id}`, true);
 
       const world: World = {
         ...res,
@@ -37,6 +41,7 @@ const Edit = () => {
 
       setWorld(world);
       setName(world.name);
+      setMap(world.map || null);
       setDescription(world.description);
     } catch (error) {
       toast.error((error as Error).message || "Unable to save the World");
@@ -45,11 +50,16 @@ const Edit = () => {
 
   const onSave = async () => {
     try {
-      await request.put(`/api/worlds/${id}`, {
-        ...world,
-        name,
-        description,
-      });
+      await request.put(
+        `/api/worlds/${id}`,
+        {
+          ...world,
+          name,
+          description,
+          map,
+        },
+        true
+      );
       toast.success("Updated~!");
       router.back();
     } catch (error: any) {
@@ -58,7 +68,7 @@ const Edit = () => {
   };
   const onDelete = async () => {
     try {
-      await request.del(`/api/worlds/${id}`);
+      await request.del(`/api/worlds/${id}`, undefined, true);
       toast.success("Deleted~!");
       router.back();
     } catch (error: any) {
@@ -82,8 +92,15 @@ const Edit = () => {
           label="Description"
           onChange={setDescription}
         />
+        <InputFile
+          loading={!world}
+          label="World Map"
+          onChange={async (files) =>
+            setMap(files ? await Image2Base64(files[0]) : null)
+          }
+        />
       </>
-      <div className="flex gap-2 mt-2">
+      <div className="flex gap-2 my-2">
         <Button
           text="Save"
           onClick={onSave}
@@ -106,6 +123,7 @@ const Edit = () => {
         />
         <div className="grow" />
       </div>
+      <ImageViewer alt="Map of the world" src={map} />
     </Page>
   );
 };

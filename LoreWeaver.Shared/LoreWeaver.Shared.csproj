@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LoreWeaver.Entities\LoreWeaver.Entities.csproj" />
+        <ProjectReference Include="..\LoreWeaver.Entities\LoreWeaver.Entities.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Imageflow.AllPlatforms" Version="0.14.1" />
+        <PackageReference Include="Imageflow.AllPlatforms" Version="0.14.1"/>
     </ItemGroup>
 
 </Project>

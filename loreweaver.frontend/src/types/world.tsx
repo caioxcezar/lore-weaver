@@ -4,4 +4,5 @@ export interface World {
   created: Date;
   lastEdit?: Date;
   description: string;
+  map?: string;
 }

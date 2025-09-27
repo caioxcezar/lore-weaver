@@ -13,11 +13,11 @@
 
 @font-face {
   font-family: 'fontello';
-  src: url('/font/fontello.eot?86801232');
-  src: url('/font/fontello.eot?86801232#iefix') format('embedded-opentype'),
-        url('/font/fontello.woff?86801232') format('woff'),
-        url('/font/fontello.ttf?86801232') format('truetype'),
-        url('/font/fontello.svg?86801232#fontello') format('svg');
+  src: url('/font/fontello.eot?40700211');
+  src: url('/font/fontello.eot?40700211#iefix') format('embedded-opentype'),
+        url('/font/fontello.woff?40700211') format('woff'),
+        url('/font/fontello.ttf?40700211') format('truetype'),
+        url('/font/fontello.svg?40700211#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -54,11 +54,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-  --papyrus: #2a2418;
-  --papyrus-medium: #3a3325;
-  --papyrus-dark: #4a4335;
-  --ink: #e8dfca;
-  --accent: #c19a6b;
+    --papyrus: #2a2418;
+    --papyrus-medium: #3a3325;
+    --papyrus-dark: #4a4335;
+    --ink: #e8dfca;
+    --accent: #c19a6b;
   }
 }
 
@@ -80,7 +80,8 @@ body {
   background-color: var(--papyrus-medium-hover) !important;
 }
 
-.tiptap-dropdown-menu, .tiptap-button-group {
+.tiptap-dropdown-menu,
+.tiptap-button-group {
   background-color: var(--papyrus-medium) !important;
 }
 
@@ -137,4 +138,52 @@ body {
 .text-editor .ProseMirror {
   border: dashed var(--papyrus-dark) 2px;
   outline: none !important;
+}
+
+.frame-image {
+
+  .border-top1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 100px;
+    background-color: var(--papyrus-dark);
+    clip-path: polygon(0 0, 0 100%, 100% 60%, 100% 100%, 100% 0);
+  }
+
+  .border-top2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 30px;
+    background-color: var(--papyrus-dark);
+    clip-path: polygon(0 0, 0 100%, 100% 100%, 60% 100%, 100% 0);
+  }
+
+  .border-bottom1 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 100px;
+    background-color: var(--papyrus-dark);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 40%);
+  }
+
+  .border-bottom2 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    height: 30px;
+    background-color: var(--papyrus-dark);
+    clip-path: polygon(40% 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+.responsive-image {
+  object-fit: contain;
+  object-position: center;
 }
