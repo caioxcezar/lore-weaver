@@ -1,35 +1,39 @@
 "use client";
-import Card from "@/components/Card";
-import Icon from "@/components/Icon";
 import Page from "@/components/Page";
 import Scrollable from "@/components/Scrollable";
-import useRequest from "@/hooks/useRequest";
-import { type World } from "@/types/world";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Skeleton from "react-loading-skeleton";
+import { type Location } from "@/types/location";
+import Card from "@/components/Card";
+import useRequest from "@/hooks/useRequest";
 import { toast } from "react-toastify";
+import Icon from "@/components/Icon";
+import Skeleton from "react-loading-skeleton";
 
-export default function Home() {
+const GeoLocations = () => {
   const router = useRouter();
   const request = useRequest();
-  const [worlds, setWorlds] = useState<World[]>([]);
+
+  const [locations, setLocations] = useState<Location[]>([]);
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(Number.MAX_SAFE_INTEGER);
   const [fetching, isFetching] = useState(true);
 
   const handleScroll = (position: number, height: number) => {
     if (fetching) return;
-    if (position >= height / 2) loadWorlds(page + 1);
+    if (position >= height / 2) loadLocations(page + 1);
   };
 
-  const loadWorlds = async (page: number) => {
+  const loadLocations = async (page: number) => {
     try {
       if (page > total) return;
       isFetching(true);
-      const json = await request.get(`/api/worlds?page=${page}&size=50`, true);
+      const json = await request.get(
+        `/api/geolocations?page=${page}&size=50`,
+        true
+      );
       setPage(page);
-      setWorlds([...worlds, ...json.items]);
+      setLocations([...locations, ...json.items]);
       setTotal(json.total);
     } catch (error) {
       toast.error((error as Error).message);
@@ -40,11 +44,7 @@ export default function Home() {
   };
 
   return (
-    <Page
-      title="Lore Weaver"
-      subtitle="Worlds"
-      onMount={() => loadWorlds(page + 1)}
-    >
+    <Page title="Locations" onMount={() => loadLocations(page + 1)}>
       <Scrollable onScroll={handleScroll}>
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
           <Card
@@ -65,14 +65,14 @@ export default function Home() {
               />
             </div>
           </Card>
-          {worlds.map((item: World) => (
+          {locations.map((item: Location) => (
             <Card key={item.id} className="flex flex-row">
               <div
                 className="cursor-pointer"
-                onClick={() => router.push(`/worlds?id=${item.id}`)}
+                onClick={() => router.push(`/geolocations/edit?id=${item.id}`)}
               >
                 <div className="font-bold text-xl">{item.name}</div>
-                <div className="text-xl">{item.description}</div>
+                <div className="text-xl">{item.shortDescription}</div>
               </div>
 
               <div className="flex flex-1 items-center">
@@ -101,4 +101,6 @@ export default function Home() {
       </Scrollable>
     </Page>
   );
-}
+};
+
+export default GeoLocations;

@@ -9,7 +9,8 @@ interface Props {
     | "icon-zoom-in"
     | "icon-zoom-out"
     | "icon-map"
-    | "icon-users";
+    | "icon-users"
+    | "icon-globe";
   style?: CSSProperties;
   className?: string;
   onClick?: () => void;
@@ -23,6 +24,7 @@ const icons: Record<string, ReactJSX.Element> = {
   "icon-zoom-out": <>&#xe804;</>,
   "icon-map": <>&#xe805;</>,
   "icon-users": <>&#xe806;</>,
+  "icon-globe": <>&#xe807;</>,
 };
 
 const Icon = ({ name, style, className = "", onClick = () => {} }: Props) => {

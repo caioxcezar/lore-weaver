@@ -7,7 +7,27 @@ interface Props {
   placeholder?: string;
   required?: boolean;
   loading?: boolean;
-  type?: string;
+  type?:
+    | "checkbox"
+    | "color"
+    | "date"
+    | "datetime-local"
+    | "email"
+    | "hidden"
+    | "image"
+    | "month"
+    | "number"
+    | "password"
+    | "radio"
+    | "range"
+    | "reset"
+    | "search"
+    | "submit"
+    | "tel"
+    | "text"
+    | "time"
+    | "url"
+    | "week";
   maxLength?: number;
   onChange: (value: string) => void;
 }

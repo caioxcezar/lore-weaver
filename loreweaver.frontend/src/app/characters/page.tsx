@@ -20,7 +20,7 @@ const Character = () => {
             <Card
               key={`${c.fullName}:${lastLocation}`}
               className="flex flex-col align-middle items-center justify-center"
-              onClick={() => router.push("/character/editor")}
+              onClick={() => router.push("/characters/editor")}
             >
               <div>{c.fullName}</div>
               <div>{lastLocation}</div>
@@ -29,7 +29,7 @@ const Character = () => {
         })}
         <Card
           className="flex flex-col align-middle items-center justify-center cursor-pointer"
-          onClick={() => router.push("/character/editor")}
+          onClick={() => router.push("/characters/editor")}
         >
           <div>Create New Character</div>
           <Icon name="icon-plus-circled" className="text-5xl align-middle" />
