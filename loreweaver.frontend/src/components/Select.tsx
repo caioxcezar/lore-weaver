@@ -29,11 +29,26 @@ const Select = <T extends ItemProps>({
   loading,
 }: Props<T>) => {
   const ref = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const [search, setSearch] = useState("");
   const [focused, isFocused] = useState(false);
+  const [position, setPosition] = useState("top");
+  const [maxHeight, setMaxHeight] = useState(0);
 
   const onFocus = () => {
+    if (!ref.current) return;
+    const divPosition = ref.current.getBoundingClientRect().y;
+    const position =
+      divPosition < document.body.offsetHeight / 2 ? "botton" : "top";
+    setPosition(position);
+    if (position === "botton") {
+      setMaxHeight(
+        document.body.offsetHeight - divPosition - ref.current.offsetHeight
+      );
+    } else {
+      setMaxHeight(divPosition);
+    }
     isFocused(true);
   };
 
@@ -60,8 +75,16 @@ const Select = <T extends ItemProps>({
     };
   }, []);
 
+  let borderCss = "";
+  if (!focused) borderCss += "rounded-lg";
+  else if (position === "top") borderCss += "rounded-b-lg";
+  else borderCss += "rounded-t-lg";
+
+  const modalCss =
+    position === "top" ? "rounded-t-lg bottom-10" : "rounded-b-lg border-t-0";
+
   return (
-    <div ref={ref} onFocus={onFocus}>
+    <div className="relative w-full" ref={ref} onFocus={onFocus}>
       <Label
         value={label}
         loading={loading}
@@ -71,9 +94,7 @@ const Select = <T extends ItemProps>({
         <Skeleton className="p-3.5" />
       ) : (
         <div
-          className={`focus:outline-none focus:ring-2 bg-(--papyrus-medium) border border-(--papyrus-medium-hover) text-sm focus:ring-(--papyrus-medium-hover) focus:border-(--papyrus-medium-hover) w-full p-2.5 flex ${
-            focused ? "rounded-t-lg" : "rounded-lg"
-          }`}
+          className={`focus:outline-none focus:ring-2 bg-(--papyrus-medium) border border-(--papyrus-medium-hover) text-sm focus:ring-(--papyrus-medium-hover) focus:border-(--papyrus-medium-hover) w-full p-2.5 flex ${borderCss}`}
         >
           <input
             className="focus:outline-none flex-1 placeholder:text-(--color-foreground)"
@@ -86,24 +107,33 @@ const Select = <T extends ItemProps>({
         </div>
       )}
       {focused && (
-        <div className="select-modal absolute bg-(--papyrus-medium) w-full border border-(--papyrus-medium-hover) rounded-b-lg border-t-0 text-sm">
+        <div
+          ref={modalRef}
+          className={`select-modal absolute bg-(--papyrus-medium) w-full border border-(--papyrus-medium-hover) text-sm overflow-y-auto z-50 ${modalCss}`}
+          style={{ maxHeight: maxHeight }}
+        >
           {values
-            .filter(({ title, key }) => `${key} ${title}`.includes(search))
-            .map((entry, index, arr) => (
-              <div
-                key={entry.key}
-                className={`select-modal-child p-2.5 w-full cursor-pointer flex hover:bg-(--papyrus-dark) ${
-                  index === arr.length - 1 && "rounded-b-lg"
-                }`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  onSelect(entry);
-                }}
-              >
-                <div className="flex-1">{entry.title}</div>
-                <div>{value?.key === entry.key && "☑"}</div>
-              </div>
-            ))}
+            .filter(({ title, key }) =>
+              `${key} ${title.toLowerCase()}`.includes(search.toLowerCase())
+            )
+            .map((entry, index, arr) => {
+              const idCss = position === "top" ? 0 : arr.length - 1;
+              return (
+                <div
+                  key={entry.key}
+                  className={`select-modal-child p-2.5 w-full cursor-pointer flex hover:bg-(--papyrus-dark) ${
+                    index === idCss && modalCss
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelect(entry);
+                  }}
+                >
+                  <div className="flex-1">{entry.title}</div>
+                  <div>{value?.key === entry.key && "☑"}</div>
+                </div>
+              );
+            })}
         </div>
       )}
     </div>
