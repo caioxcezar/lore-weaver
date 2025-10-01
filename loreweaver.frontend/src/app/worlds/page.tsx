@@ -13,11 +13,12 @@ const Worlds = () => {
   const router = useRouter();
   const request = useRequest();
   const searchParams = useSearchParams();
-  const id = searchParams?.get("id") || null;
+  const id = searchParams?.get("id");
 
   const [world, setWorld] = useState<World | null>(null);
 
   const onMount = async () => {
+    if (!id) router.back();
     const json = await request.get(`/api/worlds/${id}`, true);
     setWorld({
       ...json,
@@ -47,7 +48,7 @@ const Worlds = () => {
             </Card>
             <Card
               className="flex flex-row cursor-pointer"
-              onClick={() => router.push(`/geolocations?world-id=${world.id}`)}
+              onClick={() => router.push(`/geoLocations?world-id=${world.id}`)}
             >
               <div>
                 <div className="font-bold text-xl">Geo. Locations</div>
