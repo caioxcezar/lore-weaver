@@ -14,12 +14,13 @@ namespace LoreWeaver.Core.Controllers;
 public class GeoLocationsController(AppDbContext context, ISupabaseService supabaseService) : Controller
 {
     [HttpGet]
-    public async Task<ActionResult<object>> GetGeographicLocations(int page = 1, int size = 10)
+    public async Task<ActionResult<object>> GetGeographicLocations(int worldId, int page = 1, int size = 10)
     {
         var userId = User.GetId();
-        var total = await context.GeographicLocations.CountAsync(l => l.World.User.Id == userId);
+        var total =
+            await context.GeographicLocations.CountAsync(l => l.World.Id == worldId && l.World.User.Id == userId);
         var totalPage = Math.Ceiling((double)total / page);
-        var worlds = context.GeographicLocations.Where(l => l.World.User.Id == userId)
+        var worlds = context.GeographicLocations.Where(l => l.World.Id == worldId && l.World.User.Id == userId)
             .Select(GeoLocationSumaryDto.FromEntity).Skip(page * size).Take(size);
 
         return new { total = totalPage, items = worlds };
