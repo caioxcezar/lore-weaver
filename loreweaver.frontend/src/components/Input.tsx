@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import Label from "./label";
+import { type KeyboardEvent, type ChangeEvent } from "react";
 
 interface Props {
   value: string;
@@ -17,6 +18,8 @@ interface Props {
     | "image"
     | "month"
     | "number"
+    | "integer"
+    | "float"
     | "password"
     | "radio"
     | "range"
@@ -30,6 +33,7 @@ interface Props {
     | "week";
   maxLength?: number;
   onChange: (value: string) => void;
+  onSubmitEditing?: () => void;
 }
 
 const Input = ({
@@ -39,9 +43,29 @@ const Input = ({
   required,
   loading,
   onChange,
+  onSubmitEditing,
   maxLength,
   type = "text",
 }: Props) => {
+  const onChangeText = ({
+    target: { value },
+  }: ChangeEvent<HTMLInputElement>) => {
+    switch (type) {
+      case "integer":
+        onChange(value.replace(/[^0-9]/g, ""));
+        break;
+      case "float":
+        if (!value || value.match(/^-?\d+\.?\d*$/g)) onChange(value);
+        break;
+      default:
+        onChange(value);
+    }
+  };
+
+  const onKeyPress = ({ key }: KeyboardEvent<HTMLInputElement>) => {
+    if (key === "Enter" && onSubmitEditing) onSubmitEditing();
+  };
+
   return (
     <div>
       <Label
@@ -59,7 +83,8 @@ const Input = ({
           className="focus:outline-none focus:ring-2 bg-(--papyrus-medium) border border-(--papyrus-medium-hover) text-sm rounded-lg focus:ring-(--papyrus-medium-hover) focus:border-(--papyrus-medium-hover) block w-full p-2.5"
           placeholder={placeholder}
           required={required}
-          onChange={({ target: { value } }) => onChange(value)}
+          onChange={onChangeText}
+          onKeyUp={onKeyPress}
         />
       )}
     </div>
