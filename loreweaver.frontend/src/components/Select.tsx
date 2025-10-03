@@ -98,10 +98,13 @@ const Select = <T extends ItemProps>({
         >
           <input
             className="focus:outline-none flex-1 placeholder:text-(--color-foreground)"
-            placeholder={value ? value.title : "Select a value..."}
+            placeholder={value?.title || "Select a value..."}
             style={style}
             value={search}
             onChange={({ target: { value } }) => setSearch(value)}
+            onKeyDown={({ key }) => {
+              if (key === "Enter" || key === "Tab") onBlur();
+            }}
           />
           ▾
         </div>
