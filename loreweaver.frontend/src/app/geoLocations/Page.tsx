@@ -1,7 +1,7 @@
 "use client";
 import Page from "@/components/Page";
 import Scrollable from "@/components/Scrollable";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { type Location } from "@/types/location";
 import Card from "@/components/Card";
@@ -13,6 +13,9 @@ import Skeleton from "react-loading-skeleton";
 const GeoLocations = () => {
   const router = useRouter();
   const request = useRequest();
+  const searchParams = useSearchParams();
+
+  const worldId = searchParams?.get("world-id") || null;
 
   const [locations, setLocations] = useState<Location[]>([]);
   const [page, setPage] = useState(0);
@@ -28,10 +31,8 @@ const GeoLocations = () => {
     try {
       if (page > total) return;
       isFetching(true);
-      const json = await request.get(
-        `/api/geolocations?page=${page}&size=50`,
-        true
-      );
+      const url = `/api/geoLocations?worldId=${worldId}&page=${page}&size=50`;
+      const json = await request.get(url, true);
       setPage(page);
       setLocations([...locations, ...json.items]);
       setTotal(json.total);
@@ -43,19 +44,22 @@ const GeoLocations = () => {
     }
   };
 
+  const onMount = () => {
+    if (!worldId) router.back();
+    loadLocations(page + 1);
+  };
+
   return (
-    <Page title="Locations" onMount={() => loadLocations(page + 1)}>
+    <Page title="Locations" onMount={onMount}>
       <Scrollable onScroll={handleScroll}>
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
           <Card
             className="flex flex-row cursor-pointer"
-            onClick={() => router.push("/worlds/new")}
+            onClick={() => router.push(`/geoLocations/new?world-id=${worldId}`)}
           >
             <div>
-              <div className="font-bold text-xl">Create New World</div>
-              <div className="text-xl">
-                Start a new Worldbuilding adverture!
-              </div>
+              <div className="font-bold text-xl">Create New Location</div>
+              <div className="text-xl">Write a new location</div>
             </div>
             <div className="flex flex-1 items-center">
               <div className="flex-1" />
@@ -69,7 +73,7 @@ const GeoLocations = () => {
             <Card key={item.id} className="flex flex-row">
               <div
                 className="cursor-pointer"
-                onClick={() => router.push(`/geolocations/edit?id=${item.id}`)}
+                onClick={() => router.push(`/geoLocations/edit?id=${item.id}`)}
               >
                 <div className="font-bold text-xl">{item.name}</div>
                 <div className="text-xl">{item.shortDescription}</div>

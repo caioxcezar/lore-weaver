@@ -1,11 +1,13 @@
 "use client";
 import Input from "@/components/Input";
+import InputArray from "@/components/InputArray";
 import MultiSelect from "@/components/MultiSelect";
 import Page from "@/components/Page";
 import Select from "@/components/Select";
 import { useState } from "react";
 
 const Sandbox = () => {
+  const [multinput, setMultInput] = useState<string[]>([]);
   const [value, setValue] = useState<{ key: number; title: string }[]>([]);
   const [value1, setValue1] = useState<{ key: number; title: string } | null>(
     null
@@ -35,6 +37,11 @@ const Sandbox = () => {
         values={values}
       />
       <Input label="label 2" value={input2} onChange={setInput2} />
+      <InputArray
+        label="Input array"
+        values={multinput}
+        onChange={setMultInput}
+      />
     </Page>
   );
 };

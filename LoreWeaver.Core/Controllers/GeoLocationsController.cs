@@ -20,10 +20,10 @@ public class GeoLocationsController(AppDbContext context, ISupabaseService supab
         var total =
             await context.GeographicLocations.CountAsync(l => l.World.Id == worldId && l.World.User.Id == userId);
         var totalPage = Math.Ceiling((double)total / page);
-        var worlds = context.GeographicLocations.Where(l => l.World.Id == worldId && l.World.User.Id == userId)
-            .Select(GeoLocationSumaryDto.FromEntity).Skip(page * size).Take(size);
+        var locations = context.GeographicLocations.Where(l => l.World.Id == worldId && l.World.User.Id == userId)
+            .Select(GeoLocationSumaryDto.FromEntity).Skip((page - 1) * size).Take(size);
 
-        return new { total = totalPage, items = worlds };
+        return new { total = totalPage, items = locations };
     }
 
     [HttpPost]
@@ -37,14 +37,18 @@ public class GeoLocationsController(AppDbContext context, ISupabaseService supab
             shortDescription = location.ShortDescription,
             GeographicType = location.GeographicType,
             World = world,
-            Coordinates = location.Coordinates,
             Area = location.Area,
             Population = location.Population,
             Climate = location.Climate,
             Created = DateTime.Now.ToUniversalTime(),
-            ParentLocation = location.ParentLocation,
             Resources = location.Resources
         };
+        if (location.ParentLocation != null)
+            entity.ParentLocation = await context.GeographicLocations.FirstOrDefaultAsync(l =>
+                l.World.Id == world.Id &&
+                l.World.User.Id == userId &&
+                l.Id == location.ParentLocation);
+
         context.GeographicLocations.Add(entity);
         await context.SaveChangesAsync();
 
